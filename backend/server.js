@@ -19,6 +19,19 @@ const enrollmentRoutes = require('./routes/enrollment');
 app.use('/api/newsletter', newsletterRoutes);
 app.use('/api/enrollment', enrollmentRoutes);
 
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'BrAInix Backend API is running ✅',
+    version: '1.0.0',
+    endpoints: {
+      newsletter: '/api/newsletter/subscribe',
+      enrollment: '/api/enrollment/register',
+      health: '/api/health'
+    }
+  });
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({ status: 'Backend is running ✅' });
