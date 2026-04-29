@@ -1,39 +1,37 @@
-const nodemailer = require('nodemailer');
+const sgMail = require('@sendgrid/mail');
 
-// Check if email credentials are available
-const hasEmailConfig = process.env.ADMIN_EMAIL && process.env.ADMIN_EMAIL_PASSWORD;
+// Check if SendGrid API key is available
+const hasSendGridKey = process.env.SENDGRID_API_KEY;
 
-// Create email transporter only if credentials exist
-let transporter = null;
-
-if (hasEmailConfig) {
-  transporter = nodemailer.createTransport({
-    service: process.env.EMAIL_SERVICE || 'gmail',
-    auth: {
-      user: process.env.ADMIN_EMAIL,
-      pass: process.env.ADMIN_EMAIL_PASSWORD
-    }
-  });
-
-  // Test connection
-  transporter.verify((error, success) => {
-    if (error) {
-      console.error('❌ Email configuration error:', error.message);
-    } else {
-      console.log('✅ Email service ready');
-    }
-  });
+if (hasSendGridKey) {
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  console.log('✅ SendGrid configured');
 } else {
-  console.warn('⚠️  Email credentials not configured. Emails will be logged instead.');
+  console.warn('⚠️  SendGrid API key not configured. Emails will be logged instead.');
 }
 
-// Helper function to send email or log it
+// Helper function to send email via SendGrid or log it
 const sendEmail = async (mailOptions) => {
-  if (!transporter) {
+  if (!hasSendGridKey) {
     console.log('📧 [EMAIL LOG] Would send:', mailOptions);
-    return { success: true, message: 'Email logged (no credentials configured)' };
+    return { success: true, message: 'Email logged (no SendGrid key configured)' };
   }
-  return transporter.sendMail(mailOptions);
+
+  try {
+    const msg = {
+      to: mailOptions.to,
+      from: mailOptions.from || process.env.SENDGRID_FROM_EMAIL || 'noreply@brainix.com',
+      subject: mailOptions.subject,
+      html: mailOptions.html
+    };
+    
+    await sgMail.send(msg);
+    console.log(`✅ Email sent to ${mailOptions.to}`);
+    return { success: true, message: 'Email sent successfully' };
+  } catch (error) {
+    console.error('❌ SendGrid error:', error.message);
+    throw error;
+  }
 };
 
 /**
