@@ -1,22 +1,40 @@
 const nodemailer = require('nodemailer');
 
-// Create email transporter
-const transporter = nodemailer.createTransport({
-  service: process.env.EMAIL_SERVICE || 'gmail',
-  auth: {
-    user: process.env.ADMIN_EMAIL,
-    pass: process.env.ADMIN_EMAIL_PASSWORD
-  }
-});
+// Check if email credentials are available
+const hasEmailConfig = process.env.ADMIN_EMAIL && process.env.ADMIN_EMAIL_PASSWORD;
 
-// Test connection
-transporter.verify((error, success) => {
-  if (error) {
-    console.error('❌ Email configuration error:', error);
-  } else {
-    console.log('✅ Email service ready');
+// Create email transporter only if credentials exist
+let transporter = null;
+
+if (hasEmailConfig) {
+  transporter = nodemailer.createTransport({
+    service: process.env.EMAIL_SERVICE || 'gmail',
+    auth: {
+      user: process.env.ADMIN_EMAIL,
+      pass: process.env.ADMIN_EMAIL_PASSWORD
+    }
+  });
+
+  // Test connection
+  transporter.verify((error, success) => {
+    if (error) {
+      console.error('❌ Email configuration error:', error.message);
+    } else {
+      console.log('✅ Email service ready');
+    }
+  });
+} else {
+  console.warn('⚠️  Email credentials not configured. Emails will be logged instead.');
+}
+
+// Helper function to send email or log it
+const sendEmail = async (mailOptions) => {
+  if (!transporter) {
+    console.log('📧 [EMAIL LOG] Would send:', mailOptions);
+    return { success: true, message: 'Email logged (no credentials configured)' };
   }
-});
+  return transporter.sendMail(mailOptions);
+};
 
 /**
  * Send enrollment notification to admin
@@ -54,7 +72,7 @@ const sendEnrollmentNotification = async (enrollmentData) => {
   `;
 
   try {
-    await transporter.sendMail({
+    await sendEmail({
       from: process.env.ADMIN_EMAIL,
       to: process.env.ADMIN_EMAIL,
       subject: `🎓 New Course Enrollment: ${courseName}`,
@@ -63,7 +81,7 @@ const sendEnrollmentNotification = async (enrollmentData) => {
     console.log(`✅ Enrollment notification sent to ${process.env.ADMIN_EMAIL}`);
     return { success: true, message: 'Email sent to admin' };
   } catch (error) {
-    console.error('❌ Email sending error:', error);
+    console.error('❌ Email sending error:', error.message);
     throw error;
   }
 };
@@ -95,7 +113,7 @@ const sendEnrollmentConfirmation = async (studentEmail, courseName, studentName)
   `;
 
   try {
-    await transporter.sendMail({
+    await sendEmail({
       from: process.env.ADMIN_EMAIL,
       to: studentEmail,
       subject: `✅ Welcome to BrAInix: ${courseName}`,
@@ -104,7 +122,7 @@ const sendEnrollmentConfirmation = async (studentEmail, courseName, studentName)
     console.log(`✅ Confirmation email sent to ${studentEmail}`);
     return { success: true, message: 'Confirmation email sent to student' };
   } catch (error) {
-    console.error('❌ Email sending error:', error);
+    console.error('❌ Email sending error:', error.message);
     throw error;
   }
 };
@@ -134,7 +152,7 @@ const sendNewsletterSubscriptionNotification = async (subscriberEmail) => {
   `;
 
   try {
-    await transporter.sendMail({
+    await sendEmail({
       from: process.env.ADMIN_EMAIL,
       to: process.env.ADMIN_EMAIL,
       subject: `📬 New Newsletter Subscriber: ${subscriberEmail}`,
@@ -143,7 +161,7 @@ const sendNewsletterSubscriptionNotification = async (subscriberEmail) => {
     console.log(`✅ Newsletter subscription notification sent to ${process.env.ADMIN_EMAIL}`);
     return { success: true, message: 'Notification sent to admin' };
   } catch (error) {
-    console.error('❌ Email sending error:', error);
+    console.error('❌ Email sending error:', error.message);
     throw error;
   }
 };
@@ -181,7 +199,7 @@ const sendNewsletterWelcomeEmail = async (subscriberEmail) => {
   `;
 
   try {
-    await transporter.sendMail({
+    await sendEmail({
       from: process.env.ADMIN_EMAIL,
       to: subscriberEmail,
       subject: `Welcome to BrAInix Newsletter! 🎓`,
@@ -190,7 +208,7 @@ const sendNewsletterWelcomeEmail = async (subscriberEmail) => {
     console.log(`✅ Welcome email sent to ${subscriberEmail}`);
     return { success: true, message: 'Welcome email sent to subscriber' };
   } catch (error) {
-    console.error('❌ Email sending error:', error);
+    console.error('❌ Email sending error:', error.message);
     throw error;
   }
 };
