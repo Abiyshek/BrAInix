@@ -8,21 +8,23 @@ exports.subscribeEmail = async (req, res, next) => {
       return res.status(400).json({ error: 'Email is required' });
     }
 
-    // Send notification to admin
-    await sendNewsletterSubscriptionNotification(email);
-    
-    // Send welcome email to subscriber
-    await sendNewsletterWelcomeEmail(email);
-
-    // TODO: Add Mailchimp integration here for subscriber list
-    
-    console.log(`📧 Newsletter subscription received for: ${email}`);
-
+    // Send response immediately (don't wait for emails)
     res.status(201).json({
       success: true,
       message: 'Successfully subscribed to newsletter',
       email: email
     });
+
+    // Send emails in background (fire and forget)
+    sendNewsletterSubscriptionNotification(email).catch(err => {
+      console.error('❌ Failed to send admin notification:', err.message);
+    });
+    
+    sendNewsletterWelcomeEmail(email).catch(err => {
+      console.error('❌ Failed to send welcome email:', err.message);
+    });
+
+    console.log(`📧 Newsletter subscription received for: ${email}`);
   } catch (error) {
     console.error('❌ Newsletter subscription error:', error);
     res.status(500).json({
