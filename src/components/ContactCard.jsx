@@ -1,3 +1,4 @@
+import React from 'react';
 import { X, Mail, Phone } from 'lucide-react';
 
 export function ContactCard({ isOpen, onClose }) {
