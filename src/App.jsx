@@ -1,49 +1,22 @@
 import React, { useState } from "react";
 import { ChevronDown, ArrowRight, Play, Mail, CheckCircle, AlertCircle, Globe, Cpu, BookOpen, Search, Layers, Target, Rocket } from "lucide-react";
-import { HeroCanvas, HowCanvas, StarRating, EnrollmentModal } from "./components";
+import { HeroCanvas, HowCanvas, StarRating, ContactCard } from "./components";
 import { useCursor, useReveal } from "./hooks";
 import { features, courses, steps, testimonials, stats, footerLinks } from "./data/constants";
-import { subscribeToNewsletter } from "./services/api";
 import "./styles/globals.css";
 
 export default function App() {
   const { cursorRef, dotRef, outerRef } = useCursor();
   useReveal();
 
-  const [email, setEmail] = useState("");
-  const [toast, setToast] = useState(null);
-  const [sending, setSending] = useState(false);
-  const [isEnrollmentOpen, setIsEnrollmentOpen] = useState(false);
-  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [isContactOpen, setIsContactOpen] = useState(false);
 
-  const handleSignup = () => {
-    setToast(null);
-    if (!email || !email.includes("@") || !email.includes(".")) {
-      setToast({ type:"error", msg:"Please enter a valid email address." });
-      return;
-    }
-    setSending(true);
-    
-    subscribeToNewsletter(email)
-      .then(() => {
-        setSending(false);
-        setEmail("");
-        setToast({ type:"success", msg:"Successfully subscribed! Check your email for confirmation." });
-      })
-      .catch((error) => {
-        setSending(false);
-        setToast({ type:"error", msg:error.message || "Failed to subscribe. Please try again." });
-      });
+  const handleContactClick = () => {
+    setIsContactOpen(true);
   };
 
-  const handleEnrollClick = (course) => {
-    setSelectedCourse(course);
-    setIsEnrollmentOpen(true);
-  };
-
-  const handleCloseEnrollment = () => {
-    setIsEnrollmentOpen(false);
-    setSelectedCourse(null);
+  const handleCloseContact = () => {
+    setIsContactOpen(false);
   };
 
   return (
@@ -145,7 +118,7 @@ export default function App() {
                     <div className="c-price" style={{color:c.priceColor}}>{c.price}</div>
                     <div className="c-meta">{c.meta}</div>
                   </div>
-                  <button className="c-btn" onClick={() => handleEnrollClick(c)}>Enroll <ArrowRight size={12}/></button>
+                  <button className="c-btn" onClick={() => handleContactClick()}>Enroll <ArrowRight size={12}/></button>
                 </div>
               </div>
             </div>
@@ -193,31 +166,13 @@ export default function App() {
       <section id="cta">
         <div className="cta-inner">
           <div className="cta-glow"/>
-          <div className="sec-label">Join 100+ Learners</div>
-          <h2>Your next chapter<br/>starts <span className="grad">right now</span></h2>
-          <p>Get 7 days free. No credit card needed. Cancel anytime. Pure, focused learning from day one.</p>
-          <div className="input-row">
-            <input className="email-inp" type="email" placeholder="Enter your email address"
-              value={email} onChange={e=>setEmail(e.target.value)}
-              onKeyDown={e=>e.key==="Enter"&&handleSignup()}/>
-            <button className="btn-primary" style={{whiteSpace:"nowrap",padding:".72rem 1.7rem",fontSize:".88rem"}}
-              onClick={handleSignup} disabled={sending}>
-              <Mail size={16}/>{sending?"Sending…":"Get Started Free"}
-            </button>
-          </div>
-          {toast && (
-            <div className={`toast ${toast.type}`}>
-              {toast.type==="success"
-                ? <CheckCircle size={15}/>
-                : <AlertCircle size={15}/>}
-              {toast.msg}
-            </div>
-          )}
-          <div className="mail-note">
-            <Globe size={12} color="var(--muted)"/>
-            Newsletter subscription active
-          </div>
-          <div style={{fontSize:".78rem",color:"var(--muted)",marginTop:".5rem"}}>Join 100+ learners who started this week</div>
+          <div className="sec-label">Ready to Get Started?</div>
+          <h2>Transform Your Learning<br/>Journey <span className="grad">Today</span></h2>
+          <p>Explore our comprehensive courses and join thousands of learners who are advancing their skills with BrAInix.</p>
+          <button className="btn-primary" style={{marginTop:"1.5rem"}}
+            onClick={handleContactClick}>
+            <Mail size={16}/>Get in Touch
+          </button>
         </div>
       </section>
 
@@ -231,11 +186,10 @@ export default function App() {
         <div className="f-copy">© 2026 BrAInix, Inc.</div>
       </footer>
 
-      {/* ENROLLMENT MODAL */}
-      <EnrollmentModal 
-        isOpen={isEnrollmentOpen} 
-        course={selectedCourse} 
-        onClose={handleCloseEnrollment} 
+      {/* CONTACT CARD */}
+      <ContactCard 
+        isOpen={isContactOpen}
+        onClose={handleCloseContact}
       />
     </>
   );
