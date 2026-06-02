@@ -11,6 +11,7 @@ import {
   services, servicesFeatures, servicesSteps, servicesStats
 } from "./data/constants";
 import { subscribeToNewsletter } from "./services/api";
+import logoImg from "./assets/logo/BrAInix_logo.jpg";
 import "./styles/globals.css";
 
 export default function App() {
@@ -81,8 +82,9 @@ export default function App() {
       {/* NAV */}
       <nav>
         <div style={{ display: "flex", alignItems: "center", gap: "2.5rem" }}>
-          <div className="logo" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={{ cursor: "pointer" }}>
-            BrAInix
+          <div className="logo-container" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "0.6rem" }}>
+            <img src={logoImg} alt="BrAInix Logo" style={{ height: "34px", width: "34px", borderRadius: "8px", objectFit: "cover", border: "0.5px solid var(--border)" }} />
+            <span className="logo-text" style={{ fontFamily: "var(--fh)", fontWeight: "800", fontSize: "1.4rem", letterSpacing: "-0.03em", background: "linear-gradient(135deg, var(--cyan), var(--violet2))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>BrAInix</span>
           </div>
           
           {/* Dynamic Switcher in Nav */}
@@ -528,7 +530,10 @@ export default function App() {
 
       {/* FOOTER */}
       <footer>
-        <div className="f-logo">BrAInix</div>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          <img src={logoImg} alt="BrAInix Logo" style={{ height: "26px", width: "26px", borderRadius: "6px", objectFit: "cover", border: "0.5px solid var(--border)" }} />
+          <span style={{ fontFamily: "var(--fh)", fontWeight: "800", fontSize: "1.2rem", letterSpacing: "-0.03em", background: "linear-gradient(135deg, var(--cyan), var(--violet2))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>BrAInix</span>
+        </div>
         <div className="f-contact" style={{ display: "flex", gap: "2.5rem", flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
           <a 
             href="#" 
