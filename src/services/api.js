@@ -79,3 +79,37 @@ export const getEnrollmentStatus = async (enrollmentId) => {
     throw error;
   }
 };
+
+/**
+ * Submit services inquiry and send confirmation email
+ * @param {Object} inquiryData - Client inquiry details
+ * @returns {Promise}
+ */
+export const submitServiceInquiry = async (inquiryData) => {
+  try {
+    const response = await fetch(`${API_URL}/api/enrollment/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        fullName: inquiryData.fullName,
+        email: inquiryData.email,
+        phone: inquiryData.phone,
+        courseName: `Service: ${inquiryData.serviceName}`,
+        experience: `Budget: ${inquiryData.budget} | Description: ${inquiryData.description}`
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to submit inquiry');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Inquiry submission error:', error);
+    throw error;
+  }
+};
+

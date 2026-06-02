@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
-export function useReveal() {
+export function useReveal(trigger) {
   useEffect(() => {
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => {
@@ -11,8 +11,15 @@ export function useReveal() {
           obs.unobserve(e.target);
         }
       });
-    }, { threshold: 0.1 });
-    document.querySelectorAll(".reveal").forEach(el => obs.observe(el));
+    }, { threshold: 0.05 });
+    
+    // Observe all reveal elements (including the new ones)
+    document.querySelectorAll(".reveal").forEach(el => {
+      // If we switched modes, let's remove "vis" so they can fade-in cleanly again
+      el.classList.remove("vis");
+      obs.observe(el);
+    });
+    
     return () => obs.disconnect();
-  }, []);
+  }, [trigger]);
 }
