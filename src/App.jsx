@@ -22,6 +22,24 @@ export default function App() {
   const [toast, setToast] = useState(null);
   const [sending, setSending] = useState(false);
 
+  const [preloaderActive, setPreloaderActive] = useState(true);
+  const [preloaderFade, setPreloaderFade] = useState(false);
+
+  React.useEffect(() => {
+    const fadeTimer = setTimeout(() => {
+      setPreloaderFade(true);
+    }, 4400);
+
+    const activeTimer = setTimeout(() => {
+      setPreloaderActive(false);
+    }, 5000);
+
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(activeTimer);
+    };
+  }, []);
+
   const handlePhoneClick = (e) => {
     e.preventDefault();
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -73,6 +91,19 @@ export default function App() {
 
   return (
     <>
+      {/* PRELOADER */}
+      {preloaderActive && (
+        <div className={`preloader ${preloaderFade ? "fade-out" : ""}`}>
+          <div className="preloader-logo-wrap">
+            <img src={logoImg} alt="BrAInix" className="preloader-logo" />
+          </div>
+          <div className="preloader-text">BrAInix</div>
+          <div className="preloader-bar-bg">
+            <div className="preloader-bar" />
+          </div>
+        </div>
+      )}
+
       {/* CURSOR */}
       <div id="np-cursor" ref={cursorRef}>
         <div className="cur-ring" ref={outerRef} />
