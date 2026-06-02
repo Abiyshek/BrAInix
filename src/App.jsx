@@ -138,15 +138,21 @@ export default function App() {
         <ul className="nav-links">
           {productMode === "services" ? (
             <>
-              <li><a href="#features">Studio Solutions</a></li>
-              <li><a href="#courses">Our Services</a></li>
-              <li><a href="#how">Delivery Flow</a></li>
+              <li><a href="#hero">Home</a></li>
+              <li><a href="#pillars">Products</a></li>
+              <li><a href="#features">Standards</a></li>
+              <li><a href="#courses">Capabilities</a></li>
+              <li><a href="#how">Workflow</a></li>
+              <li><a href="#cta">Connect</a></li>
             </>
           ) : (
             <>
-              <li><a href="#features">Platform Features</a></li>
-              <li><a href="#courses">Course Catalog</a></li>
-              <li><a href="#how">How it works</a></li>
+              <li><a href="#hero">Home</a></li>
+              <li><a href="#pillars">Platforms</a></li>
+              <li><a href="#features">Features</a></li>
+              <li><a href="#courses">Catalogue</a></li>
+              <li><a href="#how">Process</a></li>
+              <li><a href="#cta">Connect</a></li>
             </>
           )}
         </ul>
@@ -244,7 +250,7 @@ export default function App() {
       </section>
 
       {/* CORE PILARS / CHOOSE MODE */}
-      <section style={{ padding: "4rem 3rem", background: "var(--ink2)", borderTop: "0.5px solid var(--border)", borderBottom: "0.5px solid var(--border)" }}>
+      <section id="pillars" style={{ padding: "4rem 3rem", background: "var(--ink2)", borderTop: "0.5px solid var(--border)", borderBottom: "0.5px solid var(--border)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", textAlign: "center" }}>
           <div className="sec-label">Dual Engine Architecture</div>
           <h2 className="sec-title" style={{ fontSize: "2rem", marginBottom: "2rem" }}>Choose your BrAInix destination</h2>
