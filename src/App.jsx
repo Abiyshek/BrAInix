@@ -825,7 +825,7 @@ function AboutPage() {
           </h2>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <div style={{ width: "200px", height: "200px", borderRadius: "50%", overflow: "hidden", border: "4px solid var(--cyan)", boxShadow: "0 0 30px rgba(0, 229, 255, 0.3)", marginBottom: "1.5rem" }}>
-              <img src={founderAvatarImg} alt="Founder Avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              <img src={`${founderAvatarImg}?update=${Date.now()}`} alt="Founder Avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </div>
             <h3 style={{ fontFamily: "var(--fh)", fontSize: "1.6rem", fontWeight: "700", color: "var(--text)", marginBottom: "0.5rem" }}>
               Nandha Kumar A
