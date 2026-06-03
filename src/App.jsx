@@ -15,7 +15,7 @@ import logoImg from "./assets/logo/BrAInix_logo.jpg";
 import ourMissionImg from "./assets/about/our_mission.png";
 import ourVisionImg from "./assets/about/our_vision.png";
 import whyChooseUsImg from "./assets/about/why_choose_us.png";
-import founderAvatarImg from "./assets/about/founder_avatar.png";
+import founderAvatarImg from "./assets/about/founder_avatar.jpg";
 import "./styles/globals.css";
 
 export default function App() {
