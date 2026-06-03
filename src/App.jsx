@@ -167,6 +167,19 @@ export default function App() {
               Home
             </a>
           </li>
+          <li>
+            <a 
+              href="#about" 
+              onClick={(e) => {
+                e.preventDefault();
+                setActivePage("about");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              style={{ color: activePage === "about" ? "var(--cyan)" : "var(--text2)", cursor: "pointer" }}
+            >
+              About
+            </a>
+          </li>
           {productMode === "services" ? (
             <>
               <li><a href="#pillars" onClick={(e) => navigateToSection(e, "pillars")}>Products</a></li>
@@ -184,19 +197,6 @@ export default function App() {
               <li><a href="#cta" onClick={(e) => navigateToSection(e, "cta")}>Connect</a></li>
             </>
           )}
-          <li>
-            <a 
-              href="#about" 
-              onClick={(e) => {
-                e.preventDefault();
-                setActivePage("about");
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }}
-              style={{ color: activePage === "about" ? "var(--cyan)" : "var(--text2)", cursor: "pointer" }}
-            >
-              About
-            </a>
-          </li>
         </ul>
 
         <button 
