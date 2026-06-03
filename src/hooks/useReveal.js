@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-export function useReveal(trigger) {
+export function useReveal(productMode, activePage, preloaderActive) {
   useEffect(() => {
     const obs = new IntersectionObserver(entries => {
       entries.forEach(e => {
@@ -11,7 +11,7 @@ export function useReveal(trigger) {
           obs.unobserve(e.target);
         }
       });
-    }, { threshold: 0.05 });
+    }, { threshold: 0.01 });
     
     // Observe all reveal elements (including the new ones)
     document.querySelectorAll(".reveal").forEach(el => {
@@ -21,5 +21,5 @@ export function useReveal(trigger) {
     });
     
     return () => obs.disconnect();
-  }, [trigger]);
+  }, [productMode, activePage, preloaderActive]);
 }

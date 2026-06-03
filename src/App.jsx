@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import {
   ChevronDown, ArrowRight, Play, Mail, CheckCircle, AlertCircle,
   Globe, Cpu, BookOpen, Search, Layers, Target, Rocket, Laptop,
-  Terminal, Shield, Settings, Briefcase, Award, Users, Zap, Phone, MapPin
+  Terminal, Shield, Settings, Briefcase, Award, Users, Zap, Phone, MapPin,
+  Menu, X
 } from "lucide-react";
 import { HeroCanvas, HowCanvas, StarRating, InquiryModal } from "./components";
 import { useCursor, useReveal } from "./hooks";
@@ -22,13 +23,13 @@ export default function App() {
   const { cursorRef, dotRef, outerRef } = useCursor();
   const [productMode, setProductMode] = useState("services"); // "services" or "edu"
   const [activePage, setActivePage] = useState("home"); // "home" or "about"
-  useReveal(productMode);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [preloaderActive, setPreloaderActive] = useState(true);
+  const [preloaderFade, setPreloaderFade] = useState(false);
+  useReveal(productMode, activePage, preloaderActive);
   const [email, setEmail] = useState("");
   const [toast, setToast] = useState(null);
   const [sending, setSending] = useState(false);
-
-  const [preloaderActive, setPreloaderActive] = useState(true);
-  const [preloaderFade, setPreloaderFade] = useState(false);
 
   React.useEffect(() => {
     const fadeTimer = setTimeout(() => {
@@ -129,9 +130,10 @@ export default function App() {
       </div>
 
       {/* NAV */}
+      {/* NAV */}
       <nav>
-        <div style={{ display: "flex", alignItems: "center", gap: "2.5rem" }}>
-          <div className="logo-container" onClick={() => { setActivePage("home"); window.scrollTo({ top: 0, behavior: "smooth" }); }} style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "0.6rem" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+          <div className="logo-container" onClick={() => { setActivePage("home"); window.scrollTo({ top: 0, behavior: "smooth" }); setMobileMenuOpen(false); }} style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "0.6rem" }}>
             <img src={logoImg} alt="BrAInix Logo" style={{ height: "34px", width: "34px", borderRadius: "8px", objectFit: "cover", border: "0.5px solid var(--border)" }} />
             <span className="logo-text" style={{ fontFamily: "var(--fh)", fontWeight: "800", fontSize: "1.4rem", letterSpacing: "-0.03em", background: "linear-gradient(135deg, var(--cyan), var(--violet2))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>BrAInix</span>
           </div>
@@ -140,13 +142,13 @@ export default function App() {
           <div className="prod-switcher">
             <button
               className={`switcher-btn ${productMode === "services" ? "active services" : ""}`}
-              onClick={() => { setActivePage("home"); setProductMode("services"); }}
+              onClick={() => { setActivePage("home"); setProductMode("services"); setMobileMenuOpen(false); }}
             >
               Services
             </button>
             <button
               className={`switcher-btn ${productMode === "edu" ? "active edu" : ""}`}
-              onClick={() => { setActivePage("home"); setProductMode("edu"); }}
+              onClick={() => { setActivePage("home"); setProductMode("edu"); setMobileMenuOpen(false); }}
             >
               Edu Platform
             </button>
@@ -216,7 +218,87 @@ export default function App() {
         >
           {productMode === "services" ? "Request Consultation" : "Start Learning"}
         </button>
+
+        {/* Mobile Toggle Button */}
+        <button 
+          className="mobile-nav-toggle"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
       </nav>
+
+      {/* Mobile Menu Dropdown */}
+      {mobileMenuOpen && (
+        <div className="mobile-menu">
+          <ul className="mobile-menu-links">
+            <li>
+              <a
+                href="#hero"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActivePage("home");
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                  setMobileMenuOpen(false);
+                }}
+                style={{ color: activePage === "home" ? "var(--cyan)" : "var(--text2)" }}
+              >
+                Home
+              </a>
+            </li>
+            <li>
+              <a
+                href="#about"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActivePage("about");
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                  setMobileMenuOpen(false);
+                }}
+                style={{ color: activePage === "about" ? "var(--cyan)" : "var(--text2)" }}
+              >
+                About
+              </a>
+            </li>
+            {productMode === "services" ? (
+              <>
+                <li><a href="#pillars" onClick={(e) => { navigateToSection(e, "pillars"); setMobileMenuOpen(false); }}>Products</a></li>
+                <li><a href="#features" onClick={(e) => { navigateToSection(e, "features"); setMobileMenuOpen(false); }}>Standards</a></li>
+                <li><a href="#courses" onClick={(e) => { navigateToSection(e, "courses"); setMobileMenuOpen(false); }}>Capabilities</a></li>
+                <li><a href="#how" onClick={(e) => { navigateToSection(e, "how"); setMobileMenuOpen(false); }}>Workflow</a></li>
+                <li><a href="#cta" onClick={(e) => { navigateToSection(e, "cta"); setMobileMenuOpen(false); }}>Connect</a></li>
+              </>
+            ) : (
+              <>
+                <li><a href="#pillars" onClick={(e) => { navigateToSection(e, "pillars"); setMobileMenuOpen(false); }}>Platforms</a></li>
+                <li><a href="#features" onClick={(e) => { navigateToSection(e, "features"); setMobileMenuOpen(false); }}>Features</a></li>
+                <li><a href="#courses" onClick={(e) => { navigateToSection(e, "courses"); setMobileMenuOpen(false); }}>Catalogue</a></li>
+                <li><a href="#how" onClick={(e) => { navigateToSection(e, "how"); setMobileMenuOpen(false); }}>Process</a></li>
+                <li><a href="#cta" onClick={(e) => { navigateToSection(e, "cta"); setMobileMenuOpen(false); }}>Connect</a></li>
+              </>
+            )}
+          </ul>
+          <button
+            className="nav-cta"
+            style={{ width: "100%", marginTop: "1rem" }}
+            onClick={() => {
+              setMobileMenuOpen(false);
+              if (activePage !== "home") {
+                setActivePage("home");
+                setTimeout(() => {
+                  const ctaEl = document.getElementById("cta");
+                  if (ctaEl) ctaEl.scrollIntoView({ behavior: "smooth" });
+                }, 100);
+              } else {
+                const ctaEl = document.getElementById("cta");
+                if (ctaEl) ctaEl.scrollIntoView({ behavior: "smooth" });
+              }
+            }}
+          >
+            {productMode === "services" ? "Request Consultation" : "Start Learning"}
+          </button>
+        </div>
+      )}
 
       {activePage === "home" ? (
         <>
