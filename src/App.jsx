@@ -75,8 +75,12 @@ export default function App() {
   };
 
   const handleItemClick = (item) => {
-    setSelectedItem(item);
-    setIsModalOpen(true);
+    const btn = document.getElementById("book-consultation-btn");
+    if (btn) {
+      btn.scrollIntoView({ behavior: "smooth", block: "center" });
+    } else {
+      document.getElementById("cta").scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const handleCloseModal = () => {
@@ -440,6 +444,19 @@ export default function App() {
               <p style={{ marginBottom: "1.5rem" }}>Get in touch with our admissions coordinators and engineering mentors to select the perfect roadmap for your career goals.</p>
             </>
           )}
+
+          <div style={{ marginBottom: "2.5rem", display: "flex", justifyContent: "center" }}>
+            <a 
+              id="book-consultation-btn"
+              href="https://forms.gle/7p2BKU7n1imjDusJA"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary"
+              style={{ textDecoration: "none" }}
+            >
+              Book Consultation
+            </a>
+          </div>
 
           {/* Main Contacts Cards Grid */}
           <div className="cta-contacts-grid" style={{ 
