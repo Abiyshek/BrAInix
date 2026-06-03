@@ -12,11 +12,16 @@ import {
 } from "./data/constants";
 import { subscribeToNewsletter } from "./services/api";
 import logoImg from "./assets/logo/BrAInix_logo.jpg";
+import ourMissionImg from "./assets/about/our_mission.png";
+import ourVisionImg from "./assets/about/our_vision.png";
+import whyChooseUsImg from "./assets/about/why_choose_us.png";
+import founderAvatarImg from "./assets/about/founder_avatar.png";
 import "./styles/globals.css";
 
 export default function App() {
   const { cursorRef, dotRef, outerRef } = useCursor();
   const [productMode, setProductMode] = useState("services"); // "services" or "edu"
+  const [activePage, setActivePage] = useState("home"); // "home" or "about"
   useReveal(productMode);
   const [email, setEmail] = useState("");
   const [toast, setToast] = useState(null);
@@ -88,6 +93,15 @@ export default function App() {
     setSelectedItem(null);
   };
 
+  const navigateToSection = (e, targetId) => {
+    e.preventDefault();
+    setActivePage("home");
+    setTimeout(() => {
+      const el = document.getElementById(targetId);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  };
+
   const activeFeatures = productMode === "services" ? servicesFeatures : features;
   const activeGrid = productMode === "services" ? services : courses;
   const activeSteps = productMode === "services" ? servicesSteps : steps;
@@ -117,7 +131,7 @@ export default function App() {
       {/* NAV */}
       <nav>
         <div style={{ display: "flex", alignItems: "center", gap: "2.5rem" }}>
-          <div className="logo-container" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "0.6rem" }}>
+          <div className="logo-container" onClick={() => { setActivePage("home"); window.scrollTo({ top: 0, behavior: "smooth" }); }} style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "0.6rem" }}>
             <img src={logoImg} alt="BrAInix Logo" style={{ height: "34px", width: "34px", borderRadius: "8px", objectFit: "cover", border: "0.5px solid var(--border)" }} />
             <span className="logo-text" style={{ fontFamily: "var(--fh)", fontWeight: "800", fontSize: "1.4rem", letterSpacing: "-0.03em", background: "linear-gradient(135deg, var(--cyan), var(--violet2))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>BrAInix</span>
           </div>
@@ -126,13 +140,13 @@ export default function App() {
           <div className="prod-switcher">
             <button 
               className={`switcher-btn ${productMode === "services" ? "active services" : ""}`}
-              onClick={() => setProductMode("services")}
+              onClick={() => { setActivePage("home"); setProductMode("services"); }}
             >
               Services
             </button>
             <button 
               className={`switcher-btn ${productMode === "edu" ? "active edu" : ""}`}
-              onClick={() => setProductMode("edu")}
+              onClick={() => { setActivePage("home"); setProductMode("edu"); }}
             >
               Edu Platform
             </button>
@@ -140,37 +154,74 @@ export default function App() {
         </div>
 
         <ul className="nav-links">
+          <li>
+            <a 
+              href="#hero" 
+              onClick={(e) => {
+                e.preventDefault();
+                setActivePage("home");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              style={{ color: activePage === "home" ? "var(--cyan)" : "var(--text2)", cursor: "pointer" }}
+            >
+              Home
+            </a>
+          </li>
           {productMode === "services" ? (
             <>
-              <li><a href="#hero">Home</a></li>
-              <li><a href="#pillars">Products</a></li>
-              <li><a href="#features">Standards</a></li>
-              <li><a href="#courses">Capabilities</a></li>
-              <li><a href="#how">Workflow</a></li>
-              <li><a href="#cta">Connect</a></li>
+              <li><a href="#pillars" onClick={(e) => navigateToSection(e, "pillars")}>Products</a></li>
+              <li><a href="#features" onClick={(e) => navigateToSection(e, "features")}>Standards</a></li>
+              <li><a href="#courses" onClick={(e) => navigateToSection(e, "courses")}>Capabilities</a></li>
+              <li><a href="#how" onClick={(e) => navigateToSection(e, "how")}>Workflow</a></li>
+              <li><a href="#cta" onClick={(e) => navigateToSection(e, "cta")}>Connect</a></li>
             </>
           ) : (
             <>
-              <li><a href="#hero">Home</a></li>
-              <li><a href="#pillars">Platforms</a></li>
-              <li><a href="#features">Features</a></li>
-              <li><a href="#courses">Catalogue</a></li>
-              <li><a href="#how">Process</a></li>
-              <li><a href="#cta">Connect</a></li>
+              <li><a href="#pillars" onClick={(e) => navigateToSection(e, "pillars")}>Platforms</a></li>
+              <li><a href="#features" onClick={(e) => navigateToSection(e, "features")}>Features</a></li>
+              <li><a href="#courses" onClick={(e) => navigateToSection(e, "courses")}>Catalogue</a></li>
+              <li><a href="#how" onClick={(e) => navigateToSection(e, "how")}>Process</a></li>
+              <li><a href="#cta" onClick={(e) => navigateToSection(e, "cta")}>Connect</a></li>
             </>
           )}
+          <li>
+            <a 
+              href="#about" 
+              onClick={(e) => {
+                e.preventDefault();
+                setActivePage("about");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              style={{ color: activePage === "about" ? "var(--cyan)" : "var(--text2)", cursor: "pointer" }}
+            >
+              About
+            </a>
+          </li>
         </ul>
 
         <button 
           className="nav-cta" 
-          onClick={() => document.getElementById("cta").scrollIntoView({ behavior: "smooth" })}
+          onClick={() => {
+            if (activePage !== "home") {
+              setActivePage("home");
+              setTimeout(() => {
+                const ctaEl = document.getElementById("cta");
+                if (ctaEl) ctaEl.scrollIntoView({ behavior: "smooth" });
+              }, 100);
+            } else {
+              const ctaEl = document.getElementById("cta");
+              if (ctaEl) ctaEl.scrollIntoView({ behavior: "smooth" });
+            }
+          }}
         >
           {productMode === "services" ? "Request Consultation" : "Start Learning"}
         </button>
       </nav>
 
-      {/* HERO */}
-      <section id="hero">
+      {activePage === "home" ? (
+        <>
+          {/* HERO */}
+          <section id="hero">
         <HeroCanvas />
         <div className="hero-content">
           {productMode === "services" ? (
@@ -581,6 +632,10 @@ export default function App() {
           </div>
         </div>
       </section>
+        </>
+      ) : (
+        <AboutPage />
+      )}
 
       {/* FOOTER */}
       <footer>
@@ -660,5 +715,127 @@ export default function App() {
         onClose={handleCloseModal} 
       />
     </>
+  );
+}
+
+function AboutPage() {
+  return (
+    <div className="about-page" style={{ background: "var(--ink)", color: "var(--text)", paddingTop: "7rem", paddingBottom: "5rem" }}>
+      {/* Hero Section */}
+      <section style={{ padding: "4rem 3rem", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ maxWidth: "1100px", width: "100%", margin: "0 auto", textAlign: "center" }}>
+          <span className="sec-label" style={{ fontSize: "0.75rem", letterSpacing: "0.2em", color: "var(--cyan)" }}>WHO WE ARE</span>
+          <h1 className="grad" style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: "800", marginTop: "1rem", marginBottom: "1.5rem", fontFamily: "var(--fh)", letterSpacing: "-0.03em" }}>
+            About BrAInix
+          </h1>
+          <p style={{ color: "var(--text2)", fontSize: "1.1rem", fontWeight: "300", lineHeight: "1.8", maxWidth: "700px", margin: "0 auto" }}>
+            Bridging advanced web development and AI-driven adaptive education to shape the creators of tomorrow's digital economy.
+          </p>
+        </div>
+      </section>
+
+      {/* Our Mission Section */}
+      <section style={{ padding: "5rem 3rem", background: "var(--ink2)", borderTop: "0.5px solid var(--border)", borderBottom: "0.5px solid var(--border)" }}>
+        <div style={{ maxWidth: "1100px", margin: "0 auto", display: "flex", gap: "4rem", alignItems: "center", flexWrap: "wrap" }}>
+          <div style={{ flex: "1 1 450px" }}>
+            <span className="sec-label" style={{ color: "var(--cyan)" }}>Our Mission</span>
+            <h2 style={{ fontFamily: "var(--fh)", fontSize: "2.2rem", fontWeight: "800", marginTop: "0.5rem", marginBottom: "1.5rem" }}>
+              Simplifying the path to unleash potential.
+            </h2>
+            <p style={{ color: "var(--text2)", fontSize: "0.95rem", lineHeight: "1.8", fontWeight: "300" }}>
+              At BrAInix, we bridge the gap between cutting-edge technology and human capability. Our mission is to engineer high-fidelity web products for businesses while empowering learners to master complex engineering skills through adaptive, personalized pathways. We believe technology should expand horizons, not create barriers.
+            </p>
+          </div>
+          <div style={{ flex: "1 1 400px", display: "flex", justifyContent: "center" }}>
+            <img 
+              src={ourMissionImg} 
+              alt="Our Mission" 
+              style={{ width: "100%", maxWidth: "450px", borderRadius: "24px", border: "1px solid var(--border)", boxShadow: "0 20px 40px rgba(0, 229, 255, 0.15)" }} 
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Our Vision Section */}
+      <section style={{ padding: "5rem 3rem" }}>
+        <div style={{ maxWidth: "1100px", margin: "0 auto", display: "flex", gap: "4rem", alignItems: "center", flexWrap: "wrap" }}>
+          <div style={{ flex: "1 1 400px", display: "flex", justifyContent: "center" }}>
+            <img 
+              src={ourVisionImg} 
+              alt="Our Vision" 
+              style={{ width: "100%", maxWidth: "450px", borderRadius: "24px", border: "1px solid var(--border2)", boxShadow: "0 20px 40px rgba(124, 58, 237, 0.15)" }} 
+            />
+          </div>
+          <div style={{ flex: "1 1 450px" }}>
+            <span className="sec-label" style={{ color: "var(--violet2)" }}>Our Vision</span>
+            <h2 style={{ fontFamily: "var(--fh)", fontSize: "2.2rem", fontWeight: "800", marginTop: "0.5rem", marginBottom: "1.5rem" }}>
+              Empowering a limitless digital future.
+            </h2>
+            <p style={{ color: "var(--text2)", fontSize: "0.95rem", lineHeight: "1.8", fontWeight: "300" }}>
+              Our vision outlines the desired future state we aspire to achieve, breaking barriers and enabling users to explore endless possibilities in the digital realm. By combining custom product design, robust system architectures, and AI-powered education, we are sculpting the future of digital product building.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us Section */}
+      <section style={{ padding: "5rem 3rem", background: "var(--ink2)", borderTop: "0.5px solid var(--border)", borderBottom: "0.5px solid var(--border)" }}>
+        <div style={{ maxWidth: "1100px", margin: "0 auto", display: "flex", gap: "4rem", alignItems: "center", flexWrap: "wrap" }}>
+          <div style={{ flex: "1 1 450px" }}>
+            <span className="sec-label" style={{ color: "var(--gold)" }}>Why Choose Us</span>
+            <h2 style={{ fontFamily: "var(--fh)", fontSize: "2.2rem", fontWeight: "800", marginTop: "0.5rem", marginBottom: "2rem" }}>
+              Engineered for Excellence
+            </h2>
+            <ul style={{ listStyle: "none", padding: 0 }}>
+              {[
+                "Precision-Built Custom Web Platforms",
+                "Industry-Expert Consultations",
+                "Continuous Quality Assurance & Robust Testing",
+                "High-Fidelity UI & Luxury Brand Identity Design",
+                "Highly Scalable & Secure Cloud Infrastructure",
+                "Dedicated Post-Launch Technical Support",
+                "Interactive, AI-Powered Learning Paths",
+                "Seamless Project Transition & Handoff Setup",
+                "Transparent, Collaborative Development Workflows",
+                "No Overheads for Custom System Upgrades"
+              ].map((item, idx) => (
+                <li key={idx} style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1rem", color: "var(--text)", fontSize: "0.95rem", fontWeight: "400" }}>
+                  <span style={{ color: "var(--cyan)", fontWeight: "900", fontSize: "1.2rem" }}>•</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div style={{ flex: "1 1 400px", display: "flex", justifyContent: "center" }}>
+            <img 
+              src={whyChooseUsImg} 
+              alt="Why Choose Us" 
+              style={{ width: "100%", maxWidth: "450px", borderRadius: "24px", border: "1px solid rgba(245, 158, 11, 0.25)", boxShadow: "0 20px 40px rgba(245, 158, 11, 0.15)" }} 
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Founder Section */}
+      <section style={{ padding: "5rem 3rem" }}>
+        <div style={{ maxWidth: "1100px", margin: "0 auto", textAlign: "center" }}>
+          <span className="sec-label" style={{ color: "var(--cyan)" }}>THE LEADERSHIP</span>
+          <h2 style={{ fontFamily: "var(--fh)", fontSize: "2.2rem", fontWeight: "800", marginTop: "0.5rem", marginBottom: "3rem" }}>
+            Meet Our Founder
+          </h2>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <div style={{ width: "200px", height: "200px", borderRadius: "50%", overflow: "hidden", border: "4px solid var(--cyan)", boxShadow: "0 0 30px rgba(0, 229, 255, 0.3)", marginBottom: "1.5rem" }}>
+              <img src={founderAvatarImg} alt="Founder Avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            </div>
+            <h3 style={{ fontFamily: "var(--fh)", fontSize: "1.6rem", fontWeight: "700", color: "var(--text)", marginBottom: "0.5rem" }}>
+              Nandha Kumar A
+            </h3>
+            <p style={{ color: "var(--cyan)", fontSize: "1rem", fontWeight: "600", textTransform: "uppercase", letterSpacing: "0.1em" }}>
+              Founder & CEO, BrAInix
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
