@@ -220,7 +220,7 @@ export default function App() {
         </button>
 
         {/* Mobile Toggle Button */}
-        <button 
+        <button
           className="mobile-nav-toggle"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
@@ -623,7 +623,7 @@ export default function App() {
 
                 {/* Email Card */}
                 <a
-                  href="mailto:hashedtechs@gmail.com"
+                  href="mailto:aabiyshek@gmail.com"
                   className="cta-card violet-card"
                 >
                   <div style={{ background: "rgba(167, 139, 250, 0.08)", borderRadius: "50%", padding: "1rem", marginBottom: "1rem" }}>
