@@ -30,7 +30,7 @@ export function useCursor() {
     document.addEventListener("mousedown", onDown);
     document.addEventListener("mouseup", onUp);
 
-    const hoverEls = document.querySelectorAll("button,a,.course-card,.feature-card,.test-card,.step");
+    const hoverEls = document.querySelectorAll("button,a,.course-card,.feature-card,.test-card,.step,.pillar-card,.cta-card");
     hoverEls.forEach(el => {
       el.addEventListener("mouseenter", () => cursorRef.current?.classList.add("cursor-hover"));
       el.addEventListener("mouseleave", () => cursorRef.current?.classList.remove("cursor-hover"));

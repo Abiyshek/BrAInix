@@ -409,7 +409,7 @@ section {
 .feature-card {
   background: var(--ink);
   padding: 2.5rem;
-  transition: background 0.3s;
+  transition: background 0.3s, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   cursor: none;
   position: relative;
   overflow: hidden;
@@ -429,6 +429,7 @@ section {
 
 .feature-card:hover {
   background: rgba(0, 229, 255, 0.025);
+  transform: translateY(-8px);
 }
 
 .feature-card:hover::before {
@@ -501,7 +502,7 @@ section {
   border: 0.5px solid var(--border);
   border-radius: 24px;
   overflow: hidden;
-  transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s, box-shadow 0.3s;
   cursor: none;
 }
 
@@ -808,13 +809,13 @@ section {
   border: 0.5px solid var(--border);
   border-radius: 24px;
   padding: 2rem;
-  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  transition: border-color 0.3s, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
   cursor: none;
 }
 
 .test-card:hover {
   border-color: rgba(0, 229, 255, 0.22);
-  transform: translateY(-4px);
+  transform: translateY(-8px);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
 }
 
@@ -1088,6 +1089,7 @@ footer {
   justify-content: center;
   transition: color 0.2s;
   outline: none;
+  flex-shrink: 0;
 }
 
 .mobile-nav-toggle:hover {
@@ -1197,6 +1199,21 @@ footer {
   #np-cursor {
     display: none;
   }
+
+  /* Responsive header fixes */
+  .logo-text {
+    display: none;
+  }
+
+  .switcher-btn {
+    padding: 0.25rem 0.6rem;
+    font-size: 0.7rem;
+  }
+
+  .prod-switcher {
+    gap: 1px;
+    padding: 2px;
+  }
 }
 
 /* ──────────── PRODUCT MODE SWITCHER ──────────── */
@@ -1240,17 +1257,60 @@ footer {
 
 /* ──────────── DUAL PILLARS ──────────── */
 .pillar-card {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .pillar-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
 }
 
 .pillar-card.selected {
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* ──────────── CTA CARDS ──────────── */
+.cta-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 20px;
+  color: var(--text);
+  text-decoration: none;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+.cta-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+.cta-card.cyan-card {
+  border: 0.5px solid rgba(0, 229, 255, 0.15);
+}
+.cta-card.cyan-card:hover {
+  background: rgba(0, 229, 255, 0.04);
+  border-color: var(--cyan);
+}
+
+.cta-card.violet-card {
+  border: 0.5px solid rgba(167, 139, 250, 0.15);
+}
+.cta-card.violet-card:hover {
+  background: rgba(167, 139, 250, 0.04);
+  border-color: var(--violet2);
+}
+
+.cta-card.gold-card {
+  border: 0.5px solid rgba(245, 158, 11, 0.15);
+}
+.cta-card.gold-card:hover {
+  background: rgba(245, 158, 11, 0.04);
+  border-color: var(--gold);
 }
 
 /* ──────────── SERVICES HERO BADGE ──────────── */

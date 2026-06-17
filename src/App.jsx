@@ -603,29 +603,7 @@ export default function App() {
                 <a
                   href="#"
                   onClick={handlePhoneClick}
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: "2rem",
-                    background: "rgba(255, 255, 255, 0.02)",
-                    border: "0.5px solid rgba(0, 229, 255, 0.15)",
-                    borderRadius: "20px",
-                    color: "var(--text)",
-                    textDecoration: "none",
-                    transition: "all 0.25s"
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "rgba(0, 229, 255, 0.04)";
-                    e.currentTarget.style.borderColor = "var(--cyan)";
-                    e.currentTarget.style.transform = "translateY(-3px)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "rgba(255, 255, 255, 0.02)";
-                    e.currentTarget.style.borderColor = "rgba(0, 229, 255, 0.15)";
-                    e.currentTarget.style.transform = "translateY(0)";
-                  }}
+                  className="cta-card cyan-card"
                 >
                   <div style={{ background: "rgba(0, 229, 255, 0.08)", borderRadius: "50%", padding: "1rem", marginBottom: "1rem" }}>
                     <Phone size={24} color="var(--cyan)" />
@@ -639,29 +617,7 @@ export default function App() {
                 {/* Email Card */}
                 <a
                   href="mailto:hashedtechs@gmail.com"
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: "2rem",
-                    background: "rgba(255, 255, 255, 0.02)",
-                    border: "0.5px solid rgba(167, 139, 250, 0.15)",
-                    borderRadius: "20px",
-                    color: "var(--text)",
-                    textDecoration: "none",
-                    transition: "all 0.25s"
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "rgba(167, 139, 250, 0.04)";
-                    e.currentTarget.style.borderColor = "var(--violet2)";
-                    e.currentTarget.style.transform = "translateY(-3px)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "rgba(255, 255, 255, 0.02)";
-                    e.currentTarget.style.borderColor = "rgba(167, 139, 250, 0.15)";
-                    e.currentTarget.style.transform = "translateY(0)";
-                  }}
+                  className="cta-card violet-card"
                 >
                   <div style={{ background: "rgba(167, 139, 250, 0.08)", borderRadius: "50%", padding: "1rem", marginBottom: "1rem" }}>
                     <Mail size={24} color="var(--violet2)" />
@@ -677,29 +633,7 @@ export default function App() {
                   href="https://maps.google.com/?q=42,+5th+cross,+maraimalai+nagar,+velrampet,+Puducherry-605004"
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    padding: "2rem",
-                    background: "rgba(255, 255, 255, 0.02)",
-                    border: "0.5px solid rgba(245, 158, 11, 0.15)",
-                    borderRadius: "20px",
-                    color: "var(--text)",
-                    textDecoration: "none",
-                    transition: "all 0.25s"
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = "rgba(245, 158, 11, 0.04)";
-                    e.currentTarget.style.borderColor = "var(--gold)";
-                    e.currentTarget.style.transform = "translateY(-3px)";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = "rgba(255, 255, 255, 0.02)";
-                    e.currentTarget.style.borderColor = "rgba(245, 158, 11, 0.15)";
-                    e.currentTarget.style.transform = "translateY(0)";
-                  }}
+                  className="cta-card gold-card"
                 >
                   <div style={{ background: "rgba(245, 158, 11, 0.08)", borderRadius: "50%", padding: "1rem", marginBottom: "1rem" }}>
                     <MapPin size={24} color="var(--gold)" />
