@@ -501,7 +501,14 @@ export default function App() {
                     <div className="course-desc">{c.desc}</div>
                     <div className="course-footer">
                       <div>
-                        <div className="c-price" style={{ color: c.priceColor }}>{c.price}</div>
+                        <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem" }}>
+                          <span className="c-price" style={{ color: c.priceColor }}>{c.price}</span>
+                          {c.originalPrice && (
+                            <span style={{ textDecoration: "line-through", color: "var(--text2)", fontSize: "0.85rem", opacity: 0.6 }}>
+                              {c.originalPrice}
+                            </span>
+                          )}
+                        </div>
                         <div className="c-meta">{c.meta}</div>
                       </div>
                       <button className="c-btn" onClick={() => handleItemClick(c)}>
