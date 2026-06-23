@@ -11,7 +11,7 @@ import {
   features, courses, steps, testimonials, stats, footerLinks,
   services, servicesFeatures, servicesSteps, servicesStats
 } from "./data/constants";
-import { subscribeToNewsletter } from "./services/api";
+
 import logoImg from "./assets/logo/BrAInix_logo.jpg";
 import ourMissionImg from "./assets/about/our_mission.png";
 import ourVisionImg from "./assets/about/our_vision.png";
@@ -68,16 +68,12 @@ export default function App() {
     }
     setSending(true);
 
-    subscribeToNewsletter(email)
-      .then(() => {
-        setSending(false);
-        setEmail("");
-        setToast({ type: "success", msg: "Successfully subscribed! Check your email for confirmation." });
-      })
-      .catch((error) => {
-        setSending(false);
-        setToast({ type: "error", msg: error.message || "Failed to subscribe. Please try again." });
-      });
+    // Frontend-only: simulate successful subscription
+    setTimeout(() => {
+      setSending(false);
+      setEmail("");
+      setToast({ type: "success", msg: "Successfully subscribed! Check your email for confirmation." });
+    }, 800);
   };
 
   const handleItemClick = (item) => {

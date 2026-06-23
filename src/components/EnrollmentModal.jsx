@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { X, CheckCircle, AlertCircle } from "lucide-react";
-import { submitCourseEnrollment } from "../services/api";
 
 export function EnrollmentModal({ isOpen, course, onClose }) {
   const [formData, setFormData] = useState({
@@ -38,40 +37,26 @@ export function EnrollmentModal({ isOpen, course, onClose }) {
 
     setSubmitting(true);
 
-    // Submit enrollment via API
-    submitCourseEnrollment({
-      fullName: formData.fullName,
-      email: formData.email,
-      phone: formData.phone,
-      courseName: course.name,
-      experience: formData.experience
-    })
-      .then(() => {
-        setSubmitting(false);
-        setToast({
-          type: "success",
-          msg: "Registered !!!"
-        });
-
-        // Reset form and close after 2 seconds
-        setTimeout(() => {
-          setFormData({
-            fullName: "",
-            email: "",
-            phone: "",
-            experience: "beginner"
-          });
-          setToast(null);
-          onClose();
-        }, 2000);
-      })
-      .catch((error) => {
-        setSubmitting(false);
-        setToast({
-          type: "error",
-          msg: error.message || "Failed to submit enrollment. Please try again."
-        });
+    // Frontend-only: simulate successful enrollment
+    setTimeout(() => {
+      setSubmitting(false);
+      setToast({
+        type: "success",
+        msg: "Registered !!!"
       });
+
+      // Reset form and close after 2 seconds
+      setTimeout(() => {
+        setFormData({
+          fullName: "",
+          email: "",
+          phone: "",
+          experience: "beginner"
+        });
+        setToast(null);
+        onClose();
+      }, 2000);
+    }, 800);
   };
 
   if (!isOpen || !course) return null;

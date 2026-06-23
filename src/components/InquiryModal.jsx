@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { X, CheckCircle, AlertCircle } from "lucide-react";
-import { submitCourseEnrollment, submitServiceInquiry } from "../services/api";
 
 export function InquiryModal({ isOpen, mode, item, onClose }) {
   const [formData, setFormData] = useState({
@@ -59,46 +58,18 @@ export function InquiryModal({ isOpen, mode, item, onClose }) {
 
     setSubmitting(true);
 
-    if (mode === "services") {
-      submitServiceInquiry({
-        fullName: formData.fullName,
-        email: formData.email,
-        phone: formData.phone,
-        serviceName: item.name,
-        budget: formData.budget,
-        description: formData.description
-      })
-        .then(() => {
-          setSubmitting(false);
-          setToast({ type: "success", msg: "Inquiry Sent! We will contact you within 24 hours." });
-          setTimeout(() => {
-            onClose();
-          }, 2200);
-        })
-        .catch((error) => {
-          setSubmitting(false);
-          setToast({ type: "error", msg: error.message || "Failed to submit inquiry. Please try again." });
-        });
-    } else {
-      submitCourseEnrollment({
-        fullName: formData.fullName,
-        email: formData.email,
-        phone: formData.phone,
-        courseName: item.name,
-        experience: formData.experience
-      })
-        .then(() => {
-          setSubmitting(false);
-          setToast({ type: "success", msg: "Registered !!! Check your inbox for next steps." });
-          setTimeout(() => {
-            onClose();
-          }, 2200);
-        })
-        .catch((error) => {
-          setSubmitting(false);
-          setToast({ type: "error", msg: error.message || "Failed to register. Please try again." });
-        });
-    }
+    // Frontend-only: simulate successful submission
+    setTimeout(() => {
+      setSubmitting(false);
+      if (mode === "services") {
+        setToast({ type: "success", msg: "Inquiry Sent! We will contact you within 24 hours." });
+      } else {
+        setToast({ type: "success", msg: "Registered !!! Check your inbox for next steps." });
+      }
+      setTimeout(() => {
+        onClose();
+      }, 2200);
+    }, 800);
   };
 
   if (!isOpen || !item) return null;
