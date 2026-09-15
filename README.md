@@ -1,128 +1,69 @@
-# BrAInix - AI-Powered Learning Platform
+# BrAInix
 
-A modern, interactive learning platform with AI-driven personalization, featuring 3D animations and custom cursor effects.
+One site, two faces. A switch in the navigation flips the whole experience between:
 
-## Project Structure
+1. **Web Services** (default) — the BrAInix product studio: custom web development,
+   deployment, brand identity and API work.
+2. **Edu Tech** — BrAInix Edu: the adaptive AI learning platform and its seven course tracks.
+
+Flipping the switch swaps every section's copy, the colour palette, the page title and
+both WebGL scenes. The choice is remembered in `localStorage`.
+
+## Look
+
+White canvas, purple / violet accents, black ink. Glassmorphism throughout —
+backdrop-blurred cards over a live WebGL layer, plus SVG grain, orbs, dot grids and
+dashed circuitry.
+
+## 3D
+
+Two Three.js scenes, both mode-reactive:
+
+- `src/three/Backdrop.jsx` — fixed ambient layer: particle cloud, tumbling wireframe
+  solids and transmissive blobs. Throttled to 30 fps and paused when the tab is hidden.
+- `src/three/HeroScene.jsx` — the hero centrepiece: a tinted glass core (icosahedron in
+  services mode, torus knot in edu mode) inside a wireframe shell, with orbit rings and
+  satellite nodes. Pauses when scrolled off screen.
+- `src/three/env.js` — procedural equirectangular environment map so the glass has
+  something to refract. Without it, transmissive materials read as grey on a white page.
+
+Both scenes dispose their geometries, materials and renderer on unmount, degrade to the
+CSS-only design if WebGL is unavailable, and respect `prefers-reduced-motion`.
+
+## Structure
 
 ```
-brainix/
-├── src/
-│   ├── components/          # React components
-│   │   ├── HeroCanvas.jsx   # Three.js hero animation
-│   │   ├── HowCanvas.jsx    # Three.js how-it-works animation
-│   │   ├── StarRating.jsx   # Star rating component
-│   │   └── index.js         # Components export
-│   ├── hooks/               # Custom React hooks
-│   │   ├── useCursor.js     # Custom cursor effect hook
-│   │   ├── useReveal.js     # Intersection observer hook
-│   │   └── index.js         # Hooks export
-│   ├── data/
-│   │   └── constants.jsx    # App data and constants
-│   ├── styles/
-│   │   └── globals.css      # Global styles
-│   ├── App.jsx              # Main app component
-│   └── index.jsx            # React entry point
-├── index.html               # HTML entry point
-├── vite.config.js          # Vite configuration
-├── package.json            # Dependencies and scripts
-├── .env.example            # Example environment variables
-├── .gitignore              # Git ignore rules
-└── README.md               # This file
+src/
+  App.jsx              mode state, section order, modal + toast
+  data/site.jsx        all copy for both modes, plus shared brand facts
+  styles/theme.css     design tokens, glass primitives, layout, motion
+  three/               Backdrop, HeroScene, env
+  components/          Nav, ModeSwitch, Hero, Marquee, Sections, Footer,
+                       ContactModal, CursorGlow, Graphics (SVG)
+  hooks/useReveal.js   scroll-reveal observer with a timed safety net
 ```
 
-## Installation
-
-1. Install dependencies:
-```bash
-npm install
-```
-
-2. Create `.env` file from `.env.example`:
-```bash
-cp .env.example .env
-```
+Editing copy rarely means touching a component — nearly all text lives in
+`src/data/site.jsx`.
 
 ## Development
 
-Start the development server:
 ```bash
-npm run dev
+npm install
+npm run dev       # vite dev server
+npm run build     # production build to dist/
+npm run preview   # serve the build
+npm run lint      # eslint
+npm run deploy    # build + publish dist/ to gh-pages
 ```
 
-The app will open at `http://localhost:3000` with hot reload enabled.
+## Contact form
 
-## Build
+The site is static, so the enquiry / enrollment modal composes a `mailto:` to
+`hashedtechs@gmail.com` with the form contents filled in, and links the Google intake
+form as a second route. Point it at a real endpoint if you add a backend.
 
-Build for production:
-```bash
-npm run build
-```
+## Before launch
 
-Preview production build:
-```bash
-npm run preview
-```
-
-## Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Lint code
-- `npm run lint:fix` - Fix linting issues
-
-## Technologies Used
-
-- **React 18** - UI framework
-- **Vite** - Build tool
-- **Three.js** - 3D graphics
-- **Lucide React** - Icons
-- **CSS3** - Styling with animations
-
-## Features
-
-- AI-powered personalized learning paths
-- Interactive 3D visualizations with Three.js
-- Custom animated cursor effect
-- Smooth scroll animations and reveal effects
-- Responsive design for mobile and desktop
-- Course catalog with tags and pricing
-- Testimonials section
-- Email signup with validation
-- Newsletter integration ready
-
-## Key Components
-
-### Hooks
-- **useCursor** - Manages custom cursor effect with trail animation
-- **useReveal** - Implements scroll-based reveal animations
-
-### Canvas Components
-- **HeroCanvas** - Animated particles, rings, shapes, and helixes
-- **HowCanvas** - Network graph visualization with connected nodes
-
-### UI Components
-- **StarRating** - 5-star rating display
-- **App** - Main component orchestrating all sections
-
-## Data Structure
-
-All app data (features, courses, steps, testimonials, stats) is centralized in `src/data/constants.jsx` for easy updates and maintenance.
-
-## Styling
-
-Global styles use CSS variables for consistent theming:
-- Colors: cyan, violet, gold, ink
-- Typography: Syne (headings), DM Sans (body)
-- Responsive breakpoints: Mobile-first design
-
-## Development Tips
-
-- Edit data in `src/data/constants.jsx` to update content
-- Modify hook behavior in `src/hooks/`
-- Create new components in `src/components/`
-- Global styles in `src/styles/globals.css`
-
-## License
-
-MIT
+The testimonials in `src/data/site.jsx` are placeholders (flagged with comments in the
+file) — replace them with real, attributable quotes.

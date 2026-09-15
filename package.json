@@ -1,39 +1,36 @@
 {
   "name": "brainix",
   "version": "1.0.0",
-  "description": "BrAInix - AI-Powered Learning Platform",
+  "description": "BrAInix \u2014 a switchable web services studio and AI learning platform",
   "type": "module",
-  "main": "src/index.jsx",
+  "main": "src/main.jsx",
   "homepage": "https://Abiyshek.github.io/BrAInix",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "node backend/server.js",
     "lint": "eslint src --ext .js,.jsx",
     "lint:fix": "eslint src --ext .js,.jsx --fix",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist",
-    "dev:all": "concurrently \"npm run dev\" \"npm --prefix backend run dev\""
+    "deploy": "gh-pages -d dist"
   },
   "keywords": [
-    "learning",
-    "ai",
-    "education",
-    "neural",
-    "adaptive"
+    "web-services",
+    "edu-tech",
+    "react",
+    "three-js",
+    "glassmorphism"
   ],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "lucide-react": "^0.263.1",
+    "lucide-react": "^1.46.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "three": "^0.152.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.0",
-    "concurrently": "^8.2.0",
     "eslint": "^8.54.0",
     "eslint-plugin-react": "^7.33.2",
     "gh-pages": "^6.3.0",
