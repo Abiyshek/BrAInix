@@ -4,7 +4,7 @@
   "description": "BrAInix \u2014 a switchable web services studio and AI learning platform",
   "type": "module",
   "main": "src/main.jsx",
-  "homepage": "https://Abiyshek.github.io/BrAInix",
+  "homepage": "https://qbrainix.vercel.app",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
